@@ -1,0 +1,164 @@
+	<!DOCTYPE html>
+	<html>
+	<head>
+		<title>Gif-Generator</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+	<style>
+		.headerDiv{
+			height: 250px;
+			background: linear-gradient(#ffffff, #111111);
+
+		}
+
+		button{
+			height: 80px;
+			width: 140px;
+			border-radius: 3%;
+			color: white;
+			background: linear-gradient(blue, red);
+			border: 3px solid white;
+		}
+
+		.formButton{
+			height: 60px;
+			width: 140px;
+			border-radius: 5%;
+			color: white;
+			font-size: 20px;
+			background: linear-gradient(blue, orange);
+			border: 3px solid white;
+			margin-left: 10%;
+		}
+
+		input{
+			height: 45px;
+			width: 80%;
+			margin-left: 10%;
+			margin-right: 10%;
+			border: 3px solid black;
+
+		}
+
+	</style>
+
+
+
+	</head>
+	<body>
+
+		<div class="headerDiv"> 
+
+
+		</div>
+
+		<div class="bodyDiv">
+
+
+
+
+
+
+		</div>
+
+
+
+
+
+		<aside>
+		<form>
+
+			<h2> Type in your favorite characters </h2>
+			<input type="text" placeholder="Favorite-Character" id="inputBox">
+			<br>
+			
+		</form>
+		<button class="formButton"> Submit </button>
+	 </aside>
+
+
+
+
+
+
+	
+	</body>
+	</html>
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+
+
+	$(document).ready(function() {
+
+
+
+
+      	$(".formButton").on("click", function() {
+
+
+
+      		var inputBox = $("#inputBox").val().trim();
+
+			var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + inputBox + "&api_key=G0yF6c7Up42o8IjlsGoeWh3quzTUBVdI";
+
+			$.ajax({
+        	url: queryURL,
+        	method: "GET"
+      		})
+
+			.then(function(response) {
+
+				console.log(response);
+				
+				
+				var imageUrl = response.data["0"].images.original.url
+
+				
+
+			
+	
+				//CharacterImage should exist in cyberspace but not in the document yet.
+				var characterImage = $("<img>")
+
+				characterImage.attr("src", imageUrl);
+          		characterImage.attr("alt", $(this).text());
+
+          		var theInput = $("#inputBox").val();
+
+         	 	var characterButton = $("<button>");
+
+
+
+          		characterButton.html(theInput);
+          		$(".headerDiv").append(characterButton);
+
+
+
+          		//from cyberspace to the document
+
+          		characterButton.on("click", function()	{
+          		
+			$(".bodyDiv").append(characterImage)
+			
+
+			});
+
+    //closes the then function      		
+         	 });
+
+			
+	 	 });
+
+ 	 });
+      </script>
